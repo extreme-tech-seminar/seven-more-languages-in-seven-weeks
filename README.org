@@ -1,0 +1,5 @@
+#+TITLE: Seven More Languages in Seven Weeks
+
+Notes and slides from the Extreme Tech Seminar study of the book
+"Seven Languages in Seven Weeks: Languages That Are Shaping the
+Future".
