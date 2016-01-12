@@ -1,0 +1,254 @@
+#+TITLE: Seven More Languages in Seven Weeks
+#+BEAMER_HEADER: \subtitle{Lua}
+#+BEAMER_HEADER: \institute[INST]{Extreme Tech Seminar}
+#+AUTHOR: Correl Roush
+#+EMAIL: correl@gmail.com
+#+DATE: January 13, 2016
+#+OPTIONS: H:2 toc:nil ^:nil
+#+STARTUP: beamer indent
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,aspectratio=169]
+#+LaTeX_HEADER: \usemintedstyle{solarizeddark}
+
+* Introduction
+** Introduction
+*** Lua                                                               :BMCOL:
+:PROPERTIES: 
+:BEAMER_col: 0.5
+:END:      
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+LUA
+#+END_CENTER
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@midblue}
+A powerful, fast, lightweight, embeddable scripting language
+#+END_CENTER
+*** Indiana Jones                                                     :BMCOL:
+:PROPERTIES: 
+:BEAMER_col: 0.5
+:END:      
+#+ATTR_LATEX: :width \textwidth
+[[file:indianajones1.png]]
+* Day 1
+** Day 1: The Call to Adventure
+- Installing Lua
+- Exploring with the REPL
+  - Syntax
+  - Types
+  - Functions
+** Syntax
+#+BEGIN_CENTER
+/Whitespace doesn't matter/
+#+END_CENTER
+** Types
+- Lua is /dynamically/ typed
+- No integers (all numbers are 64-bit floats)
+- =nil= is its own type
+** Functions
+- Functions are /first-class values/
+- Arguments are flexible
+- Support arbitrary numbers of arguments
+- Support arbitrary numbers of results
+- Lua does /tail call optimization/
+** Variables
+#+BEGIN_CENTER
+Lua variables are /global by default/
+#+END_CENTER
+** Excercises
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+Exercises
+#+END_CENTER
+
+*** Notes                                                          :B_note:
+:PROPERTIES:
+:BEAMER_env: note
+:END:
+- [[http://lua-users.org/wiki/][Lua Users Wiki]]
+- [[http://www.lua.org/pil/contents.html][Programming in Lua (First Edition)]]
+- [[http://www.lua.org/manual/5.1/][Lua 5.1 Reference Manual]]
+- [[http://www.lua.org/manual/5.1/manual.html#2.4.4][The difference between a while and repeat loop]]
+
+* Day 2
+
+** Day 2: Tables All the Way Down
+#+BEGIN_CENTER
+#+ATTR_LATEX: :width 0.75\textwidth
+[[file:Picnic_Table_Stack.jpg]]
+#+END_CENTER
+
+** Tables as Dictionaries
+#+BEGIN_SRC lua
+  book = {
+     title  = "Grail Diary",
+     author = "Henry Jones",
+     pages  = 100
+  }
+
+  book.stars  = 5
+  book.author = "Henry Jones, Sr."
+#+END_SRC
+** Tables as Arrays
+- Lua counts array indices starting at *1*
+#+BEGIN_SRC lua
+  medals = {
+     "gold",
+     "silver",
+     "bronze"
+  }
+
+  medals[4] = "lead"
+#+END_SRC
+** Metatables
+*** Left                                                            :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+#+BEGIN_SRC lua
+  function table_to_string(t)
+     local result = {}
+
+     for k, v in pairs(t) do
+        result[#result + 1] = k .. ": " .. v
+     end
+
+     return table.concat(result, "\n")
+  end
+
+  greek_numbers = {
+     ena  = "one",
+     dyo  = "two",
+     tria = "three"
+  }
+  mt = {
+     __tostring = table_to_string
+  }
+  setmetatable(greek_numbers, mt)
+
+#+END_SRC
+*** Right                                                           :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+#+BEGIN_EXAMPLE
+  > =greek_numbers
+  ena: one
+  tria: three
+  dyo: two
+#+END_EXAMPLE
+** OOP
+*** Left                                                            :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+#+BEGIN_SRC lua
+  Villain = {
+     health = 100,
+     new = function(self, name)
+        local obj = {
+           name   = name,
+           health = self.health
+        }
+        setmetatable(obj, self)
+        self.__index = self
+        return obj
+     end,
+     take_hit = function(self)
+        self.health = self.health - 10
+     end
+  }
+#+END_SRC
+*** Right                                                           :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.5
+:END:
+#+BEGIN_SRC lua
+  SuperVillain = Villain.new(Villain)
+
+  function SuperVillain.take_hit(self)
+     -- Haha, armor!
+     self.health = self.health - 5
+  end
+
+  SuperVillain:new("Toht")
+#+END_SRC
+** Coroutines
+#+BEGIN_QUOTE
+You may be wondering how Lua handles multithreading.
+
+It doesn't.
+#+END_QUOTE
+** Coroutines
+*** Generator                                                   :B_example:
+:PROPERTIES:
+:BEAMER_env: example
+:END:
+#+BEGIN_SRC lua
+  function fibonacci()
+     local m = 1
+     local n = 1
+
+     while true do
+        coroutine.yield(m)
+        m, n = n, m + n
+     end
+  end
+
+  generator = coroutine.create(fibonacci)
+  succeeded, value = coroutine.resume(generator)
+  -- value = 1
+#+END_SRC
+** Multitasking
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightorange}
+#+LATEX: \huge
+Example: Building a Scheduler
+#+END_CENTER
+** Excercises
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+Exercises
+#+END_CENTER
+* Day 3
+
+** Day 3: Lua and the World
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightorange}
+#+LATEX: \huge
+Example: Making Music
+#+END_CENTER
+** Excercises
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+Exercises
+#+END_CENTER
+* Wrapping Up
+
+** Wrapping Up
+#+BEGIN_QUOTE
+A lot of programmers see the surface of Lua’s clean syntax and assume
+it’s just another everyday scripting language. I certainly had that
+feeling at first glance. But I hope that as you’ve taken a deeper look
+at its tables and coroutines, you’ve enjoyed their beauty and
+simplicity.
+#+END_QUOTE
+** Wrapping Up: Strengths
+- Approachable
+- Portable
+- Easily included in other projects
+** Wrapping Up: Weaknesses
+- Batteries not included
+- Inefficient string handling
+- Quirky
+** Final Thoughts
+#+BEGIN_QUOTE
+Lua’s prototype-based object approach proves that you don’t need
+classes to build a great object system.
+#+END_QUOTE
