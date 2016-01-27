@@ -1,0 +1,151 @@
+#+TITLE: Seven More Languages in Seven Weeks
+#+BEAMER_HEADER: \subtitle{Factor}
+#+BEAMER_HEADER: \institute[INST]{Extreme Tech Seminar}
+#+AUTHOR: Correl Roush
+#+EMAIL: correl@gmail.com
+#+DATE: January 27, 2016
+#+OPTIONS: H:2 toc:nil ^:nil
+#+STARTUP: beamer indent
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,aspectratio=169]
+#+LaTeX_HEADER: \usemintedstyle{solarizeddark}
+
+
+* Day 1
+** Day 1: Stack On, Stack Off
+- Installing Factor
+- Using the REPL
+- Basic Syntax & Data Types
+- Stack Shuffling
+- Combinators
+** Getting Stacked
+#+BEGIN_SRC factor
+  "Hello, world" print
+  ! Hello, world
+
+  "same" length "diff" length = .
+  ! t
+#+END_SRC
+** Data Types
+- Booleans ::
+     ~t~ or ~f~
+- Sequences ::
+  - Lists :: ~{ 4 3 2 1 }~
+  - Maps :: ~{ { "one" 1 } { "two" 2 } { "three" 3 } }~
+- Quotations ::
+     ~[ 42 + ]~
+** Conditionals
+Conditionals take quotations as branching arguments
+
+#+BEGIN_SRC factor
+  10 0 > [ "pos" ] [ "neg" ] if .
+  ! pos
+  -5 0 > [ "pos" ] [ "neg" ] if .
+  ! neg
+#+END_SRC
+** Stack Shuffling
+- dup :: Duplicate a value on the stack
+- drop :: Drop the top value from the stack
+- nip :: Drop the second value
+- swap :: Swap two values
+- over :: Duplicates the second value over to the top
+- rot :: Rotate values on the stack
+** Combinators
+- ~bi~, ~bi@~, ~bi*~
+- ~tri~, ~tri@~, ~tri*~
+- ~dip~, ~keep~
+
+#+BEGIN_SRC factor
+  44.50 [ 0.05 * ] [ 0.09975 * ] bi
+  ! 2.225
+  ! 4.438875
+
+  44.50 22.50 [ 0.05 * ] bi@
+  ! 2.225
+  ! 1.125
+
+  44.50 22.50 [ 0.05 * ] [ 0.09975 * ] bi*
+  ! 2.225
+  ! 2.244375
+#+END_SRC
+** Exercises
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+Exercises
+#+END_CENTER
+*** Easy                                                             :B_note:
+:PROPERTIES:
+:BEAMER_env: note
+:END:
+ Using only * and + , how would you calculate 3 2 + 4 2 with Factor? 
+
+#+BEGIN_SRC factor
+  5 dup * 3 dup * + .
+#+END_SRC
+
+ Enter USE: math.functions in the Listener. Now, with sq and sqrt , calculate the square root of 3^2 + 4^2 . 
+
+#+BEGIN_SRC factor
+  3 sq 4 sq + sqrt .
+#+END_SRC
+
+#+BEGIN_SRC factor
+  1 2
+  over swap
+#+END_SRC
+
+#+BEGIN_SRC factor
+  USE: ascii
+
+  "Correl" "Hello, " swap append >upper .
+#+END_SRC
+*** Medium                                                         :B_note:
+:PROPERTIES:
+:BEAMER_env: note
+:END:
+* Day 2
+** Day 2: Painting the Fence
+- Defining Words
+- Returning Multiple Values
+- Vocabularies
+- Unit Tests
+- Interview with Slava Pestov
+** Exercises
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+Exercises
+#+END_CENTER
+* Day 3
+** Day 3: Balancing on the Boat
+- Tuples
+- Pipelining
+** Tuples
+1. Defining
+   #+BEGIN_SRC factor
+     TUPLE: name slot ... ;
+   #+END_SRC
+2. Accessing and Modifying
+   - =slot>>=
+   - =>>slot=
+   - =change-slot=
+3. Creating
+   - =boa= (/By Order of Arguments/)
+   - =T{ name { slot value } ... }=
+** Higher-Order Words
+#+BEGIN_SRC factor
+  CONSTANT: gst-rate 0.05
+  CONSTANT: pst-rate 0.09975
+
+  : gst-pst ( price -- taxes ) [ gst-rate * ] [ pst-rate * ] bi + ;
+
+  : taxes ( checkout taxes-calc -- taxes )
+      [ dup base-price>> ] dip
+      call >>taxes ; inline
+#+END_SRC
+
+The =inline= keyword is necessary, as the =taxes= word takes
+quotations as parameters.
