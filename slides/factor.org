@@ -12,7 +12,29 @@
 #+LaTeX_CLASS_OPTIONS: [presentation,aspectratio=169]
 #+LaTeX_HEADER: \usemintedstyle{solarizeddark}
 
+* Introduction
 
+** Introduction
+
+*** Factor                                                          :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.7
+:END:
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+FACTOR
+#+END_CENTER
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@midblue}
+A stack-based, concatenative programming language
+#+END_CENTER
+*** Mr. Miyagi                                                      :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.3
+:END:
+#+ATTR_LATEX: :width \textwidth
+[[file:Mr_Miyagi.jpg]]
 * Day 1
 ** Day 1: Stack On, Stack Off
 - Installing Factor
@@ -51,7 +73,7 @@ Conditionals take quotations as branching arguments
 - nip :: Drop the second value
 - swap :: Swap two values
 - over :: Duplicates the second value over to the top
-- rot :: Rotate values on the stack
+- rot :: Rotate the top 3 values on the stack
 ** Combinators
 - ~bi~, ~bi@~, ~bi*~
 - ~tri~, ~tri@~, ~tri*~
@@ -80,13 +102,15 @@ Exercises
 :PROPERTIES:
 :BEAMER_env: note
 :END:
- Using only * and + , how would you calculate 3 2 + 4 2 with Factor? 
+ Using only * and + , how would you calculate 3^2 + 4^2 with
+ Factor?
 
 #+BEGIN_SRC factor
-  5 dup * 3 dup * + .
+  4 dup * 3 dup * + .
 #+END_SRC
 
- Enter USE: math.functions in the Listener. Now, with sq and sqrt , calculate the square root of 3^2 + 4^2 . 
+ Enter USE: math.functions in the Listener. Now, with sq and sqrt ,
+ calculate the square root of 3^2 + 4^2 .
 
 #+BEGIN_SRC factor
   3 sq 4 sq + sqrt .
@@ -109,10 +133,37 @@ Exercises
 * Day 2
 ** Day 2: Painting the Fence
 - Defining Words
-- Returning Multiple Values
 - Vocabularies
 - Unit Tests
 - Interview with Slava Pestov
+** Defining Words
+#+BEGIN_SRC factor
+  : add-42 ( x -- y ) 42 + ;
+
+  : sum ( seq -- n ) 0 [ + ] reduce ;
+
+  : first-two ( seq -- a b ) [ first ] [ second ] bi ;
+#+END_SRC
+** Vocabularies
+Words are organized into vocabularies, which are similar to packages,
+modules, or namespaces in other languages.
+** Unit Tests
+Factor includes a unit testing vocabulary (~tools.test~), which is
+useful for ensuring correctness of your code, and also experimenting
+with the language.
+
+#+BEGIN_SRC factor
+  USING: examples.greeter tools.test ;
+  IN: examples.greeter.tests
+
+  { "Hello, Test" } [ "Test" greeting ] unit-test
+#+END_SRC
+** Interview with Slava Pestov
+#+BEGIN_QUOTE
+I decided to write my own language, though, because I wanted something
+really simple, and also just because it would be fun.
+#+END_QUOTE
+
 ** Exercises
 #+BEGIN_CENTER
 #+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
@@ -122,7 +173,7 @@ Exercises
 * Day 3
 ** Day 3: Balancing on the Boat
 - Tuples
-- Pipelining
+- Pipelining with Higher-Order Words
 ** Tuples
 1. Defining
    #+BEGIN_SRC factor
@@ -149,3 +200,19 @@ Exercises
 
 The =inline= keyword is necessary, as the =taxes= word takes
 quotations as parameters.
+* Wrapping Up
+** Wrapping Up
+*** Strengths
+- Simple syntax
+- Easy function composition
+- Batteries included
+*** Weaknesses
+- Learning curve
+- Small community
+- Limited resources
+** Final Thoughts
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{70}{70}\selectfont
+Final Thoughts
+#+END_CENTER
