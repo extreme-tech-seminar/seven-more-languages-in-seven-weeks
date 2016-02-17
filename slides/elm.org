@@ -1,0 +1,83 @@
+#+TITLE: Seven More Languages in Seven Weeks
+#+BEAMER_HEADER: \subtitle{Elm}
+#+BEAMER_HEADER: \institute[INST]{Extreme Tech Seminar}
+#+AUTHOR: Correl Roush
+#+EMAIL: correl@gmail.com
+#+DATE: February 10, 2016
+#+OPTIONS: H:2 toc:nil ^:nil
+#+STARTUP: beamer indent
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+PROPERTY: BEAMER_col_ALL 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.0 :ETC
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [presentation,aspectratio=169]
+#+LaTeX_HEADER: \usemintedstyle{solarizeddark}
+
+* Introduction
+
+** Introduction
+
+*** Elm                                                               :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.6
+:END:
+#+BEGIN_CENTER
+#+ATTR_LATEX: :width 70
+[[file:elm.png]]
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+ELM
+#+END_CENTER
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@midblue}
+A functional, reactive language that compiles to JavaScript
+#+END_CENTER
+*** Babe                                                              :BMCOL:
+:PROPERTIES:
+:BEAMER_col: 0.4
+:END:
+#+ATTR_LATEX: :width \textwidth
+[[file:babe.jpg]]
+* Day 1
+** Day 1: Handling the Basics
+- Simple Expressions
+- Conditionals
+- Algebraic Data Types
+- Records
+- Functions
+* Day 2
+** Day 2: Taming Callbacks
+- Callback Hell
+- Maps and Signals
+- Maintaining State
+- Combining Signals
+* Day 3
+** Day 3: It's All a Game
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+The Game
+#+END_CENTER
+* Day ∞
+** Day ∞
+- HTML
+- JavaScript Interop Using Ports
+** Demo
+#+BEGIN_CENTER
+#+LATEX: \fontspec{Antonio-Bold}\color{trek@lightblue}
+#+LATEX: \fontsize{80}{80}\selectfont
+Demo
+#+END_CENTER
+* Wrapping Up
+** Wrapping Up
+*** Strengths
+- Type system
+- Reactive approach to event handling
+*** Weaknesses
+- Learning curve
+- Still a young language
+** Final Thoughts
+#+BEGIN_QUOTE
+When something is right, you can feel it. To me, a whole lot of Elm
+feels right. It may not be the final winner, but these concepts are
+helping the industry head in the right direction.
+#+END_QUOTE
